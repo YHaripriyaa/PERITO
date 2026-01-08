@@ -1,0 +1,3349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERITO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS BASE STYLES - DARK GOLD THEME ===== */
+        :root {
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050509;
+            --card-bg: #15151f;
+            --accent-gold: #d4af37;
+            --gold-light: #f4e8c1;
+            --gold-dark: #b8941f;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #2a2a3a;
+            --hover-bg: #20202e;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --shadow-gold: 0 0 15px rgba(212, 175, 55, 0.3);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--dark-bg);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 55%),
+                radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 55%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.85rem 2rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--gold-dark) 100%);
+            color: #0a0a0f;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-gold);
+            border: 2px solid var(--accent-gold);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #22223a 0%, #1a2748 100%);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent-gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--gold-light));
+            border-radius: 2px;
+        }
+
+        .text-center .section-title::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 2rem auto 3rem;
+            line-height: 1.7;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        /* ===== LOGO STYLES ===== */
+        .logo-img {
+            height: 48px;
+            width: auto;
+            max-width: 180px;
+            transition: var(--transition);
+            filter: brightness(1.1);
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
+        }
+
+        .footer-logo-img {
+            height: 42px;
+            width: auto;
+            max-width: 160px;
+            filter: brightness(1.2);
+            transition: var(--transition);
+        }
+
+        .footer-logo-img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.4));
+        }
+
+        /* Logo fallback */
+        .logo-img:not([src]), 
+        .logo-img[src=""],
+        .footer-logo-img:not([src]), 
+        .footer-logo-img[src=""] {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--gold-dark) 100%);
+            color: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            width: 50px;
+            height: 50px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            background-color: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+            position: relative;
+        }
+
+        .logo-container, .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links > li > a:hover,
+        .nav-links > li > a.active {
+            color: var(--accent-gold);
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        .nav-links > li > a.active {
+            box-shadow: inset 0 0 0 1px var(--accent-gold);
+        }
+
+        .nav-links > li > a i {
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links > li:hover > a i {
+            transform: rotate(180deg);
+        }
+
+        /* ===== MEGA MENU ===== */
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 800px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .nav-links > li:hover .mega-menu {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.3s ease forwards;
+        }
+
+        .mega-menu-content {
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .mega-menu-column {
+            flex: 1;
+        }
+
+        .mega-menu-column h4 {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mega-menu-column ul {
+            list-style: none;
+        }
+
+        .mega-menu-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .mega-menu-column ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            transition: var(--transition-fast);
+            border-left: 3px solid transparent;
+        }
+
+        .mega-menu-column ul li a:hover {
+            color: var(--accent-gold);
+            background-color: var(--hover-bg);
+            border-left-color: var(--accent-gold);
+            padding-left: 1rem;
+        }
+
+        .mega-menu-column ul li a i {
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .mega-menu-column ul li a:hover i {
+            transform: translateX(3px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            background-color: rgba(212, 175, 55, 0.1);
+            transition: var(--transition);
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn:hover {
+            background-color: rgba(212, 175, 55, 0.2);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background: linear-gradient(135deg, #0a0a0f 0%, #15151f 100%);
+            padding-top: 12rem;
+            padding-bottom: 6rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .hero .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #f5f5f7, var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 550px;
+            line-height: 1.7;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: linear-gradient(45deg, var(--accent-gold), transparent);
+            border-radius: 20px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: var(--transition);
+        }
+
+        .hero-image:hover img {
+            transform: perspective(1000px) rotateY(0deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Tagline Slider */
+        .tagline-slider {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            padding: 1.2rem 0;
+            overflow: hidden;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tagline-slider::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, var(--dark-bg), transparent 10%, transparent 90%, var(--dark-bg));
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .tagline-track {
+            display: flex;
+            animation: slide 30s linear infinite;
+        }
+
+        .tagline {
+            padding: 0 3rem;
+            white-space: nowrap;
+            font-weight: 500;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tagline i {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ===== SERVICES OVERVIEW ===== */
+        .services-overview {
+            background-color: var(--darker-bg);
+            position: relative;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--gold-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg), 0 0 30px rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 1.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
+            border-color: rgba(212, 175, 55, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .service-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .service-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .service-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .service-link:hover {
+            gap: 0.8rem;
+        }
+
+        .service-link:hover::after {
+            width: 100%;
+        }
+
+        /* ===== SERVICE DETAILS PAGE ===== */
+        .service-detail-hero {
+            background: linear-gradient(135deg, #0a0a0f 0%, #15151f 100%);
+            padding-top: 10rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .service-detail-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .service-detail-text {
+            padding-right: 2rem;
+        }
+
+        .service-detail-image {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .service-detail-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .service-detail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .service-detail-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .service-features {
+            margin: 2rem 0;
+        }
+
+        .service-features li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .service-features i {
+            color: var(--accent-gold);
+            margin-top: 0.3rem;
+            font-size: 1.1rem;
+        }
+
+        .service-tabs {
+            margin-top: 4rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            position: relative;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--accent-gold);
+            transition: width 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        .tab-btn.active {
+            color: var(--accent-gold);
+        }
+
+        .tab-btn.active::after {
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2.5rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ===== ABOUT US PAGE ===== */
+        .about-hero {
+            background: linear-gradient(135deg, #0a0a0f 0%, #15151f 100%);
+            padding-top: 10rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .vision-mission {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .vision-box, .mission-box {
+            padding: 3rem;
+            border-radius: 16px;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision-box:hover, .mission-box:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .vision-box {
+            border-top: 4px solid var(--accent-gold);
+        }
+
+        .mission-box {
+            border-top: 4px solid var(--gold-light);
+        }
+
+        .vision-icon, .mission-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            padding: 1rem;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .vision-icon {
+            color: var(--accent-gold);
+        }
+
+        .mission-icon {
+            color: var(--gold-light);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .value-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg), 0 0 25px rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .value-card:hover .value-icon {
+            transform: scale(1.1) rotate(10deg);
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), 0 0 25px rgba(212, 175, 55, 0.1);
+        }
+
+        .team-img-wrapper {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--accent-gold);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-member-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .team-img-fallback {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-gold), var(--gold-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: var(--dark-bg);
+        }
+
+        .team-member:hover .team-member-img {
+            transform: scale(1.1);
+        }
+
+        .position {
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .bio {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .testimonials {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .testimonial-slider {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial {
+            padding: 2.5rem;
+            background: var(--darker-bg);
+            border-radius: 12px;
+            margin: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold), var(--gold-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+        }
+
+        /* ===== CAREERS PAGE ===== */
+        .careers-hero {
+            background: linear-gradient(135deg, #0a0a0f 0%, var(--card-bg) 100%);
+            color: var(--text-primary);
+            padding-top: 10rem;
+            padding-bottom: 4rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .careers-hero .section-title,
+        .careers-hero .section-subtitle {
+            color: var(--text-primary);
+        }
+
+        .careers-hero .section-title {
+            background: linear-gradient(90deg, var(--accent-gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .careers-hero .section-title::after {
+            background: linear-gradient(90deg, var(--accent-gold), var(--gold-light));
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .program-card {
+            padding: 3rem;
+            border-radius: 16px;
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), 0 0 25px rgba(212, 175, 55, 0.1);
+        }
+
+        .program-icon {
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .program-card:hover .program-icon {
+            transform: scale(1.1);
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .jobs-list {
+            margin: 3rem 0;
+        }
+
+        .job-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .job-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .job-info h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+
+        .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ===== CONTACT PAGE ===== */
+        .contact-hero {
+            background: linear-gradient(135deg, #0a0a0f 0%, #15151f 100%);
+            padding-top: 10rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .contact-info {
+            padding-right: 2rem;
+        }
+
+        .contact-details {
+            margin: 2rem 0;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .contact-detail:hover {
+            transform: translateX(5px);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .contact-detail i {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-top: 0.2rem;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--darker-bg);
+            color: var(--text-primary);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .map-container {
+            margin-top: 4rem;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, #050509 0%, #0a0a0f 100%);
+            color: var(--text-primary);
+            padding: 5rem 0 2rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-about p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .footer-links h4,
+        .footer-contact h4 {
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-links h4::after,
+        .footer-contact h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-gold);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            padding: 0.2rem 0;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+            transform: translateX(5px);
+        }
+
+        .footer-contact p {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            background: var(--card-bg);
+            color: var(--accent-gold);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .social-links a:hover {
+            background: var(--accent-gold);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 992px) {
+            .hero .container,
+            .service-detail-content,
+            .contact-container {
+                flex-direction: column;
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+            
+            .hero-content,
+            .service-detail-text,
+            .contact-info {
+                max-width: 100%;
+                padding-right: 0;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .job-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            
+            .mega-menu {
+                width: 600px;
+                left: -100px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                flex-direction: column;
+                background: var(--darker-bg);
+                padding: 6rem 2rem 2rem;
+                box-shadow: var(--shadow-lg);
+                transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                gap: 0;
+                overflow-y: auto;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links > li {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            .nav-links > li > a {
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                justify-content: space-between;
+                border: 1px solid transparent;
+            }
+            
+            .nav-links > li > a.active {
+                border-color: var(--accent-gold);
+                background: rgba(212, 175, 55, 0.1);
+            }
+            
+            /* Mobile Mega Menu Accordion */
+            .mega-menu {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                border: none;
+                padding: 1rem 0 0 0;
+                background: transparent;
+                display: block;
+                opacity: 1;
+                transform: none;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease, padding 0.4s ease;
+            }
+            
+            .nav-links > li.active .mega-menu {
+                max-height: 1000px;
+                padding: 1rem 0 2rem 0;
+            }
+            
+            .mega-menu-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .mega-menu-column {
+                padding-left: 1rem;
+            }
+            
+            .mega-menu-column h4 {
+                padding-left: 0;
+                border-bottom: none;
+                font-size: 1rem;
+                color: var(--text-secondary);
+            }
+            
+            .mega-menu-column ul li a {
+                padding: 0.8rem 1rem;
+                background: var(--card-bg);
+                margin-bottom: 0.5rem;
+                border-radius: 8px;
+                border-left: 3px solid var(--border-color);
+            }
+            
+            .mega-menu-column ul li a:hover {
+                border-left-color: var(--accent-gold);
+                padding-left: 1.2rem;
+            }
+            
+            /* Mobile menu toggle button */
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .hero {
+                padding-top: 9rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            section {
+                padding: 4rem 0;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+                padding: 0 1.5rem;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .tab-btn {
+                text-align: left;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                background: var(--card-bg);
+                margin-bottom: 0.5rem;
+            }
+            
+            .tab-btn.active {
+                background: rgba(212, 175, 55, 0.1);
+            }
+            
+            .logo-img {
+                height: 42px;
+                max-width: 160px;
+            }
+            
+            .footer-logo-img {
+                height: 38px;
+                max-width: 140px;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .team-img-wrapper {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 0.75rem 1.5rem;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .logo-img {
+                height: 38px;
+                max-width: 140px;
+            }
+            
+            .footer-logo-img {
+                height: 34px;
+                max-width: 120px;
+            }
+            
+            .team-img-wrapper {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .contact-form,
+            .program-card,
+            .vision-box,
+            .mission-box,
+            .value-card,
+            .team-member {
+                padding: 2rem 1.5rem;
+            }
+            
+            .job-card {
+                padding: 1.5rem;
+            }
+            
+            .mega-menu {
+                left: -50px;
+                width: calc(100vw - 40px);
+            }
+        }
+        
+        /* Additional styles */
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        
+        .benefit:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+        
+        .benefit i {
+            font-size: 2.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+        
+        .benefit:hover i {
+            transform: scale(1.1);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 2.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .feature:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .careers-cta {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #0a0a0f 100%);
+            color: var(--text-primary);
+            padding: 5rem 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .careers-cta .section-title,
+        .careers-cta .section-subtitle {
+            color: var(--text-primary);
+        }
+        
+        .careers-cta .section-title {
+            background: linear-gradient(90deg, var(--accent-gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .careers-cta .section-title::after {
+            background: linear-gradient(90deg, var(--accent-gold), var(--gold-light));
+        }
+        
+        /* FAQ Styles */
+        .faq-list {
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+        
+        .faq-item h4 {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--darker-bg);
+            margin: 0;
+            transition: var(--transition);
+        }
+        
+        .faq-item h4:hover {
+            background: var(--hover-bg);
+        }
+        
+        .faq-item h4 i {
+            transition: transform 0.3s ease;
+            color: var(--accent-gold);
+        }
+        
+        .faq-item.active h4 i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-item p {
+            padding: 0 1.5rem;
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        
+        .faq-item.active p {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+        
+        /* Page specific hidden elements - FIXED */
+        #services-page, #service-details-page, #about-page, #careers-page, #contact-page {
+            display: none;
+        }
+        
+        #home-page {
+            display: block;
+        }
+        
+        /* FIX: Ensure Specialized Services are visible */
+        #services-page .service-card,
+        #service-details-page .service-detail-content,
+        .specialized-services {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        /* FIX: Make sure all service cards in services page are visible */
+        #services-page .services-grid {
+            display: grid !important;
+            visibility: visible !important;
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--darker-bg);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gold);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#home-page" class="logo-container" onclick="showPage('home-page')">
+                    <img src="image/Perito-Logo(1).jpg" alt="Perito Logo" class="logo-img">
+                </a>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home-page" class="active" onclick="showPage('home-page')"><i class="fas fa-home"></i> Home</a></li>
+                    
+                    <li class="services-menu-item">
+                        <a href="#services-page" onclick="showPage('services-page')">
+                            <i class="fas fa-cogs"></i> Services 
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <!-- Mega Menu for Services -->
+                        <div class="mega-menu">
+                            <div class="mega-menu-content">
+                                <div class="mega-menu-column">
+                                    <h4><i class="fas fa-laptop-code"></i> Core Services</h4>
+                                    <ul>
+                                        <li><a href="#service-details-page" onclick="showServiceDetails('onsite')">
+                                            <i class="fas fa-desktop"></i> Desktop Support
+                                        </a></li>
+                                        <li><a href="#service-details-page" onclick="showServiceDetails('onsite')">
+                                            <i class="fas fa-network-wired"></i> Network Support
+                                        </a></li>
+                                        <li><a href="#service-details-page" onclick="showServiceDetails('onsite')">
+                                            <i class="fab fa-linux"></i> Linux Administration
+                                        </a></li>
+                                        <li><a href="#service-details-page" onclick="showServiceDetails('remote')">
+                                            <i class="fas fa-cloud"></i> Cloud & O365 Support
+                                        </a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h4><i class="fas fa-shield-alt"></i> Specialized Services</h4>
+                                    <ul>
+                                        <li><a href="#service-details-page" onclick="showServiceDetails('security')">
+                                            <i class="fas fa-user-shield"></i> Information Security
+                                        </a></li>
+                                        <li><a href="#service-details-page" onclick="showServiceDetails('remote')">
+                                            <i class="fas fa-server"></i> Remote Infrastructure
+                                        </a></li>
+                                        <li><a href="#service-details-page" onclick="showServiceDetails('compliance')">
+                                            <i class="fas fa-file-contract"></i> Compliance Services
+                                        </a></li>
+                                        <li><a href="#services-page" onclick="showPage('services-page')">
+                                            <i class="fas fa-eye"></i> View All Services
+                                        </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li><a href="#about-page" onclick="showPage('about-page')"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li><a href="#careers-page" onclick="showPage('careers-page')"><i class="fas fa-briefcase"></i> Careers</a></li>
+                    <li><a href="#contact-page" onclick="showPage('contact-page')"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="home-page">
+        <!-- Animated Tagline Slider -->
+        <div class="tagline-slider">
+            <div class="tagline-track">
+                <div class="tagline"><i class="fas fa-check-circle"></i> Your personal technology consultant</div>
+                <div class="tagline"><i class="fas fa-shield-alt"></i> Robust IT infrastructure for your business</div>
+                <div class="tagline"><i class="fas fa-eye"></i> 24/7 network and system monitoring</div>
+                <div class="tagline"><i class="fas fa-bolt"></i> Zero downtimes and certified practices</div>
+                <div class="tagline"><i class="fas fa-check-circle"></i> Your personal technology consultant</div>
+                <div class="tagline"><i class="fas fa-shield-alt"></i> Robust IT infrastructure for your business</div>
+                <div class="tagline"><i class="fas fa-eye"></i> 24/7 network and system monitoring</div>
+                <div class="tagline"><i class="fas fa-bolt"></i> Zero downtimes and certified practices</div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero-content slide-in-left">
+                    <h1>You've got IT needs,<br>we've the <span style="color: #d4af37;">solutions</span></h1>
+                    <p>Perito delivers robust, modern, and reliable technology infrastructure solutions. We help businesses stay strong, monitor everything 24/7, and ensure seamless operations with zero downtime.</p>
+                    <div class="hero-btns">
+                        <a href="#services-page" class="btn btn-primary" onclick="showPage('services-page')">Explore Our Services</a>
+                        <a href="#contact-page" class="btn btn-secondary" onclick="showPage('contact-page')">Get In Touch</a>
+                    </div>
+                </div>
+                <div class="hero-image slide-in-right">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Perito IT Solutions">
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Overview -->
+        <section class="services-overview" id="services">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Our Services are a class apart</h2>
+                    <p class="section-subtitle fade-in-up">We provide comprehensive IT support and consulting services tailored to modern business needs.</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card fade-in-up" onclick="showServiceDetails('onsite')">
+                        <div class="service-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3>Desktop Support Engineer</h3>
+                        <p>If you have strong technology skills and enjoy working as part of a team, you might want to consider pursuing a career as a desktop support engineer.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('onsite')">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.2s;" onclick="showServiceDetails('onsite')">
+                        <div class="service-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3>Network Administrator Support</h3>
+                        <p>We ensure the stable operation of computer networks. This includes planning, installing, configuring, maintaining, and optimizing all network hardware and software.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('onsite')">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.4s;" onclick="showServiceDetails('remote')">
+                        <div class="service-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>Cloud Management</h3>
+                        <p>Our cloud management software helps make informed decisions about private vs. public cloud and optimizes hybrid cloud and multi-cloud management.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('remote')">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us -->
+        <section class="why-us" id="about">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Why Choose Perito?</h2>
+                    <p class="section-subtitle fade-in-up">Our unique approach sets us apart in the IT services industry</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature fade-in-up">
+                        <div class="feature-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h3>Certified Processes</h3>
+                        <p>ISO/IEC 27001:2013 and ISO 9001:2015 certified support processes.</p>
+                    </div>
+                    
+                    <div class="feature fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3>Verified Resources</h3>
+                        <p>All support resources are background verified for security and reliability.</p>
+                    </div>
+                    
+                    <div class="feature fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="feature-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Continuous Training</h3>
+                        <p>Online LMS for resources to upskill competencies at their own pace.</p>
+                    </div>
+                    
+                    <div class="feature fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="feature-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Custom Solutions</h3>
+                        <p>Bundled with custom-built ticketing application for support management.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Careers CTA -->
+        <section class="careers-cta" id="careers">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Want to join our team?</h2>
+                    <p class="section-subtitle fade-in-up">At Perito, we have amazing trained professionals. Join our team to start a rewarding career in technology.</p>
+                </div>
+                
+                <div class="benefits-list">
+                    <div class="benefit fade-in-up">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h4>Industry Leading Pay</h4>
+                    </div>
+                    <div class="benefit fade-in-up" style="animation-delay: 0.1s;">
+                        <i class="fas fa-award"></i>
+                        <h4>Awards & Recognition</h4>
+                    </div>
+                    <div class="benefit fade-in-up" style="animation-delay: 0.2s;">
+                        <i class="fas fa-lightbulb"></i>
+                        <h4>Innovation & Benefits</h4>
+                    </div>
+                    <div class="benefit fade-in-up" style="animation-delay: 0.3s;">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h4>Learning & Development</h4>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a href="#careers-page" class="btn btn-accent fade-in-up" onclick="showPage('careers-page')">View Open Positions</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SERVICES PAGE -->
+    <div id="services-page">
+        <!-- Page Hero -->
+        <section class="service-detail-hero">
+            <div class="container">
+                <h1 class="section-title fade-in-up">Our Core IT Support Services</h1>
+                <p class="section-subtitle fade-in-up">We believe in maximizing your operational efficiency, through our well-trained manpower & well-defined process.</p>
+                <p class="fade-in-up" style="color: var(--text-secondary); max-width: 800px; margin: 2rem auto 0; font-size: 1.1rem;">We provide end-to-end IT support across different categories to ensure your business runs smoothly and efficiently.</p>
+            </div>
+        </section>
+
+        <!-- Services Overview -->
+        <section class="services-overview">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Four Core Support Categories</h2>
+                    <p class="section-subtitle fade-in-up">Comprehensive IT support tailored to your business needs</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card fade-in-up" onclick="showServiceDetails('onsite')">
+                        <div class="service-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3>Desktop Support</h3>
+                        <p>End-to-end desktop, laptop, and hardware support with certified engineers ensuring minimal downtime for your workforce.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('onsite')">Explore Desktop Support <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.1s;" onclick="showServiceDetails('onsite')">
+                        <div class="service-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3>Network Support</h3>
+                        <p>Full lifecycle network management including planning, installation, configuration, maintenance, and optimization.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('onsite')">Explore Network Support <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.2s;" onclick="showServiceDetails('onsite')">
+                        <div class="service-icon">
+                            <i class="fab fa-linux"></i>
+                        </div>
+                        <h3>Linux Administration</h3>
+                        <p>Expert Linux server administration, configuration, security hardening, and performance optimization.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('onsite')">Explore Linux Admin <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.3s;" onclick="showServiceDetails('remote')">
+                        <div class="service-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>O365 & Cloud Support</h3>
+                        <p>Complete Microsoft 365 management and cloud solutions with certified cloud engineers.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('remote')">Explore Cloud Support <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Additional Services -->
+        <section class="why-us" style="background-color: var(--darker-bg);">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Specialized IT Services</h2>
+                    <p class="section-subtitle fade-in-up">Beyond core support, we offer specialized solutions for complex IT challenges</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card fade-in-up" onclick="showServiceDetails('security')">
+                        <div class="service-icon" style="background: rgba(212, 175, 55, 0.15);">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Information Security</h3>
+                        <p>Comprehensive security assessment covering endpoints, servers, email, API, database security and SOC2 compliance.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('security')">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.1s;" onclick="showServiceDetails('remote')">
+                        <div class="service-icon" style="background: rgba(212, 175, 55, 0.15);">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Remote Infrastructure</h3>
+                        <p>Outsourced remote infrastructure management with customized tools for capacity and alert management.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('remote')">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.2s;" onclick="showServiceDetails('compliance')">
+                        <div class="service-icon" style="background: rgba(212, 175, 55, 0.15);">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h3>Compliance Services</h3>
+                        <p>Management of IT, telecom, cybersecurity & e-waste regulations with compliance audit and advisory services.</p>
+                        <a href="#service-details-page" class="service-link" onclick="showServiceDetails('compliance')">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="text-center" style="margin-top: 3rem;">
+                    <a href="#contact-page" class="btn btn-primary" onclick="showPage('contact-page')">Get Custom IT Solution</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="careers-cta">
+            <div class="container text-center">
+                <h2 class="fade-in-up">Ready to Transform Your IT Support?</h2>
+                <p class="section-subtitle fade-in-up">Contact us today to discuss how our services can benefit your organization.</p>
+                <a href="#contact-page" class="btn btn-primary fade-in-up" style="margin-top: 2rem;" onclick="showPage('contact-page')">Get In Touch</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- SERVICE DETAILS PAGE -->
+    <div id="service-details-page">
+        <!-- Page Hero -->
+        <section class="service-detail-hero">
+            <div class="container">
+                <h1 class="section-title fade-in-up">Comprehensive Service Details</h1>
+                <p class="section-subtitle fade-in-up">Deep dive into our specialized IT services and solutions</p>
+            </div>
+        </section>
+
+        <!-- Service Tabs Navigation -->
+        <section class="service-tabs">
+            <div class="container">
+                <div class="tab-buttons fade-in-up">
+                    <button class="tab-btn active" data-tab="onsite">Onsite IT Support</button>
+                    <button class="tab-btn" data-tab="security">Information Security</button>
+                    <button class="tab-btn" data-tab="remote">Remote Infrastructure</button>
+                    <button class="tab-btn" data-tab="compliance">Compliance Services</button>
+                </div>
+                
+                <!-- Onsite IT Support Tab -->
+                <div id="onsite" class="tab-content active fade-in-up">
+                    <div class="service-detail-content">
+                        <div class="service-detail-text">
+                            <h2>Onsite IT Support</h2>
+                            <p>We provide end-to-end IT support across different categories to maximize your operational efficiency through well-trained manpower and well-defined processes.</p>
+                            
+                            <h3>Our Onsite Support Includes:</h3>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check-circle"></i> Desktop, laptop, and hardware support</li>
+                                <li><i class="fas fa-check-circle"></i> Network installation and configuration</li>
+                                <li><i class="fas fa-check-circle"></i> Software installation and troubleshooting</li>
+                                <li><i class="fas fa-check-circle"></i> Peripheral device setup and support</li>
+                                <li><i class="fas fa-check-circle"></i> User training and assistance</li>
+                                <li><i class="fas fa-check-circle"></i> Preventive maintenance</li>
+                            </ul>
+                            
+                            <a href="#contact-page" class="btn btn-primary" onclick="showPage('contact-page')">Get Onsite Support</a>
+                        </div>
+                        
+                        <div class="service-detail-image">
+                            <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Onsite IT Support">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Information Security Tab -->
+                <div id="security" class="tab-content">
+                    <div class="service-detail-content">
+                        <div class="service-detail-text">
+                            <h2>Information Security</h2>
+                            <p>We conduct comprehensive security assessments covering various security dependencies in your organization to protect against modern threats.</p>
+                            
+                            <h3>Security Solutions:</h3>
+                            <ul class="service-features">
+                                <li><i class="fas fa-shield-alt"></i> Endpoint Security Assessment</li>
+                                <li><i class="fas fa-shield-alt"></i> Servers, Desktop, Laptops Security hardening review</li>
+                                <li><i class="fas fa-shield-alt"></i> Log Review and analysis</li>
+                                <li><i class="fas fa-shield-alt"></i> Email Security Assessment</li>
+                                <li><i class="fas fa-shield-alt"></i> API security assessment</li>
+                                <li><i class="fas fa-shield-alt"></i> Database Security Assessment</li>
+                                <li><i class="fas fa-shield-alt"></i> ISMS process Assessment</li>
+                                <li><i class="fas fa-shield-alt"></i> SOC2 Assessment and compliance</li>
+                            </ul>
+                            
+                            <a href="#contact-page" class="btn btn-primary" onclick="showPage('contact-page')">Assess Your Security</a>
+                        </div>
+                        
+                        <div class="service-detail-image">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Information Security">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Remote Infrastructure Tab -->
+                <div id="remote" class="tab-content">
+                    <div class="service-detail-content">
+                        <div class="service-detail-text">
+                            <h2>Remote Infrastructure Management</h2>
+                            <p>Outsource your remote infrastructure management to our experts using customized management tools for Capacity Management, Alert Management, and Automating alerts.</p>
+                            
+                            <h3>Remote Management Features:</h3>
+                            <ul class="service-features">
+                                <li><i class="fas fa-server"></i> 24/7 Infrastructure monitoring</li>
+                                <li><i class="fas fa-server"></i> Capacity planning and management</li>
+                                <li><i class="fas fa-server"></i> Automated alert management</li>
+                                <li><i class="fas fa-server"></i> Performance optimization</li>
+                                <li><i class="fas fa-server"></i> Backup and disaster recovery</li>
+                                <li><i class="fas fa-server"></i> Patch management</li>
+                                <li><i class="fas fa-server"></i> Custom reporting and analytics</li>
+                            </ul>
+                            
+                            <a href="#contact-page" class="btn btn-primary" onclick="showPage('contact-page')">Manage Remotely</a>
+                        </div>
+                        
+                        <div class="service-detail-image">
+                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Remote Infrastructure">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Compliance Services Tab -->
+                <div id="compliance" class="tab-content">
+                    <div class="service-detail-content">
+                        <div class="service-detail-text">
+                            <h2>Compliance Services</h2>
+                            <p>Outsource management of IT, telecom, Cyber security & E-waste regulations applicable for your industry to our compliance experts.</p>
+                            
+                            <h3>Our Compliance Services:</h3>
+                            <ul class="service-features">
+                                <li><i class="fas fa-file-contract"></i> Compliance Audit and assessment</li>
+                                <li><i class="fas fa-file-contract"></i> HIPAA compliance & assessment</li>
+                                <li><i class="fas fa-file-contract"></i> Advisory on compliance requirements</li>
+                                <li><i class="fas fa-file-contract"></i> IT regulation management</li>
+                                <li><i class="fas fa-file-contract"></i> Telecom compliance</li>
+                                <li><i class="fas fa-file-contract"></i> Cybersecurity regulation compliance</li>
+                                <li><i class="fas fa-file-contract"></i> E-waste management compliance</li>
+                            </ul>
+                            
+                            <a href="#contact-page" class="btn btn-primary" onclick="showPage('contact-page')">Ensure Compliance</a>
+                        </div>
+                        
+                        <div class="service-detail-image">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Compliance Services">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="careers-cta">
+            <div class="container text-center">
+                <h2 class="fade-in-up">Need a Custom Solution?</h2>
+                <p class="section-subtitle fade-in-up">Contact us to discuss how we can tailor our services to meet your specific IT requirements.</p>
+                <a href="#contact-page" class="btn btn-accent fade-in-up" style="margin-top: 2rem;" onclick="showPage('contact-page')">Get Custom Quote</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT US PAGE -->
+    <div id="about-page">
+        <!-- Page Hero -->
+        <section class="about-hero">
+            <div class="container">
+                <h1 class="section-title fade-in-up">About Perito</h1>
+                <p class="section-subtitle fade-in-up">Your trusted IT partner for robust, reliable, and efficient technology solutions</p>
+            </div>
+        </section>
+
+        <!-- Vision & Mission -->
+        <section class="vision-mission-section">
+            <div class="container">
+                <div class="vision-mission">
+                    <div class="vision-box fade-in-up">
+                        <div class="vision-icon" style="font-size: 3.5rem; color: var(--accent-gold); margin-bottom: 1.5rem;">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h2>Our Vision</h2>
+                        <p>To be the most preferred IT partner that supports client's focus more on their core business pursuits.</p>
+                    </div>
+                    
+                    <div class="mission-box fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="mission-icon" style="font-size: 3.5rem; color: var(--gold-light); margin-bottom: 1.5rem;">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h2>Our Mission</h2>
+                        <p>To deliver a specific range of professional manpower services that consistently over-manages client expectations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- USP Section -->
+        <section class="usp-section" style="background-color: var(--darker-bg);">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Our Unique Advantages</h2>
+                    <p class="section-subtitle fade-in-up">Perito's Managed IT Services brings unique advantage of impeccable experience and highly process driven approach</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card fade-in-up">
+                        <div class="service-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h3>ISO Certified</h3>
+                        <p>ISO/IEC 27001:2013 and ISO 9001:2015 certified support processes ensuring quality and security.</p>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="service-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h3>Verified Resources</h3>
+                        <p>Background verified support resources with necessary technical certifications.</p>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="service-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Continuous Learning</h3>
+                        <p>Online Learning Management System (LMS) for resources to upskill competencies at their pace.</p>
+                    </div>
+                    
+                    <div class="service-card fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="service-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Custom Solutions</h3>
+                        <p>Bundled with a custom-built ticketing application for efficient support management.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Our Core Values</h2>
+                    <p class="section-subtitle fade-in-up">The principles that define PERITO and guide our actions</p>
+                </div>
+                
+                <div class="values-grid">
+                    <div class="value-card fade-in-up">
+                        <div class="value-icon" style="color: var(--accent-gold);">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Proactiveness</h3>
+                        <p>Anticipating needs and addressing challenges before they become problems.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="value-icon" style="color: var(--gold-light);">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <h3>Enjoy</h3>
+                        <p>Creating a positive work environment where passion meets profession.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="value-icon" style="color: var(--accent-gold);">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>ROI Focus</h3>
+                        <p>Delivering maximum value and return on investment for our clients.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="value-icon" style="color: var(--gold-light);">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Integrity</h3>
+                        <p>Upholding the highest ethical standards in all our interactions.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="value-icon" style="color: var(--accent-gold);">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Trustworthy</h3>
+                        <p>Building reliable partnerships based on transparency and consistency.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in-up" style="animation-delay: 0.5s;">
+                        <div class="value-icon" style="color: var(--gold-light);">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <h3>Ownership</h3>
+                        <p>Taking responsibility and accountability for our commitments and results.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leadership Team -->
+        <section class="team-section" style="background-color: var(--darker-bg);">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Meet Our Leadership</h2>
+                    <p class="section-subtitle fade-in-up">Experienced professionals guiding Perito's vision and growth</p>
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-member fade-in-up">
+                        <div class="team-img-wrapper">
+                            <div class="team-img-fallback">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </div>
+                        <h3>T Jaganathan</h3>
+                        <p class="position">Director</p>
+                        <p class="bio">University First (Gold Medalist) Engineer with Business Administration Diploma. Built up the Total India Networking Infrastructure for ANZ Grindlays Bank (currently Standard Chartered Bank).</p>
+                    </div>
+                    
+                    <div class="team-member fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="team-img-wrapper">
+                            <div class="team-img-fallback">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </div>
+                        <h3>Faizullah Alias Faiz</h3>
+                        <p class="position">Founder & Innovation Head</p>
+                        <p class="bio">Founded Cogent Innovation, a software product company in 1996. Created innovative software products in Service Management and Facility Management areas.</p>
+                    </div>
+                    
+                    <div class="team-member fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="team-img-wrapper">
+                            <div class="team-img-fallback">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                        </div>
+                        <h3>Mahesh MS</h3>
+                        <p class="position">CEO</p>
+                        <p class="bio">Over two decades of experience in senior management with expertise in IT infrastructure, software development, and information security. Part of the initial core team that formed AGS Health.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials-section">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Client Testimonials</h2>
+                    <p class="section-subtitle fade-in-up">What our clients say about working with Perito</p>
+                </div>
+                
+                <div class="testimonials fade-in-up">
+                    <div class="testimonial-slider">
+                        <div class="testimonial">
+                            <div class="testimonial-text">
+                                "It is good to work with Perito and we are getting support on time and closing required task within the time limit. Overall experience with futurecalls is good."
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-img">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="author-info">
+                                    <h4>Client Director</h4>
+                                    <p>Financial Services Company</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial">
+                            <div class="testimonial-text">
+                                "Excellent Service by you and your team will be providing us to close our requirements on defined timelines."
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-img">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="author-info">
+                                    <h4>IT Manager</h4>
+                                    <p>Healthcare Organization</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="careers-cta">
+            <div class="container text-center">
+                <h2 class="fade-in-up">Partner with Perito Today</h2>
+                <p class="section-subtitle fade-in-up">Experience the difference of working with a certified, process-driven IT partner</p>
+                <a href="#contact-page" class="btn btn-accent fade-in-up" style="margin-top: 2rem;" onclick="showPage('contact-page')">Contact Us Now</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- CAREERS PAGE -->
+    <div id="careers-page">
+        <!-- Page Hero -->
+        <section class="careers-hero">
+            <div class="container">
+                <h1 class="section-title fade-in-up">Build Your Career with Perito</h1>
+                <p class="section-subtitle fade-in-up">Join our team of amazing trained professionals and start a rewarding career in technology</p>
+                <a href="#jobs" class="btn btn-accent fade-in-up" style="margin-top: 2rem;">View Current Openings</a>
+            </div>
+        </section>
+
+        <!-- Why Work With Us -->
+        <section class="why-work-section">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Why Work at Perito?</h2>
+                    <p class="section-subtitle fade-in-up">Working at Perito Services provides several opportunities to grow as a person and as a professional</p>
+                </div>
+                
+                <div class="benefits-list">
+                    <div class="benefit fade-in-up">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h4>Industry Leading Pay</h4>
+                        <p>Competitive salaries with performance-based incentives</p>
+                    </div>
+                    
+                    <div class="benefit fade-in-up" style="animation-delay: 0.1s;">
+                        <i class="fas fa-award"></i>
+                        <h4>Awards & Recognition</h4>
+                        <p>Regular recognition for outstanding performance and contributions</p>
+                    </div>
+                    
+                    <div class="benefit fade-in-up" style="animation-delay: 0.2s;">
+                        <i class="fas fa-lightbulb"></i>
+                        <h4>Innovation & Benefits</h4>
+                        <p>Comprehensive benefits package and opportunities to innovate</p>
+                    </div>
+                    
+                    <div class="benefit fade-in-up" style="animation-delay: 0.3s;">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h4>Learning & Development</h4>
+                        <p>Continuous learning opportunities and career growth paths</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Programs -->
+        <section class="programs-section" style="background-color: var(--darker-bg);">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Our Career Programs</h2>
+                    <p class="section-subtitle fade-in-up">Structured programs designed to nurture talent and accelerate growth</p>
+                </div>
+                
+                <div class="programs-grid">
+                    <div class="program-card fade-in-up">
+                        <div class="program-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Youth League</h3>
+                        <p>A 12-month training program aimed to cultivate young talent from selected institutions around India. The program offers intensive training and a capability-building approach to molding the careers of young IT professionals.</p>
+                        <p><strong>Outcome:</strong> Trainees are provided expedited career prospects inside the firm based solely on their performance.</p>
+                    </div>
+                    
+                    <div class="program-card fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="program-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Flourish</h3>
+                        <p>We have created different rewards and recognition to recognise our employees at every phase. Through Flourish's Employee Engagement effort, we will interact with our staff via Site Visits and Delivery Connect.</p>
+                        <p><strong>Focus:</strong> Competency development and career progression support.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Culture -->
+        <section class="culture-section">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Our Culture</h2>
+                    <p class="section-subtitle fade-in-up">Perito's core principles include integrity, dependability, and collaboration</p>
+                </div>
+                
+                <div class="values-grid">
+                    <div class="value-card fade-in-up">
+                        <div class="value-icon" style="color: var(--accent-gold);">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Integrity</h3>
+                        <p>We believe in doing the right thing, even when no one is watching.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="value-icon" style="color: var(--gold-light);">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Dependability</h3>
+                        <p>Our clients and colleagues can count on us to deliver on our promises.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="value-icon" style="color: var(--accent-gold);">
+                            <i class="fas fa-people-arrows"></i>
+                        </div>
+                        <h3>Collaboration</h3>
+                        <p>We believe in the power of teamwork and shared success.</p>
+                    </div>
+                    
+                    <div class="value-card fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="value-icon" style="color: var(--gold-light);">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Equal Opportunity</h3>
+                        <p>We believe in equal opportunity for everybody in an open and diverse environment.</p>
+                    </div>
+                </div>
+                
+                <div class="text-center" style="margin-top: 3rem;">
+                    <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto; color: var(--text-secondary);">
+                        "We believe in fostering an open and varied work environment that will serve as a springboard for individuals that are ambitious, inventive, and eager to succeed."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Job Listings -->
+        <section class="jobs-section" id="jobs" style="background-color: var(--darker-bg);">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Current Job Openings</h2>
+                    <p class="section-subtitle fade-in-up">Join our team across multiple locations in India</p>
+                </div>
+                
+                <div class="jobs-list">
+                    <!-- Desktop Support Engineer -->
+                    <div class="job-card fade-in-up">
+                        <div class="job-info">
+                            <h4>Desktop Support Engineer</h4>
+                            <div class="job-meta">
+                                <span><i class="fas fa-briefcase"></i> 1+ years experience</span>
+                                <span><i class="fas fa-graduation-cap"></i> Graduate</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Chennai, Mumbai, Kolkata, Delhi, Hyderabad, Jaipur</span>
+                            </div>
+                            <p>Experience in desktop, laptop or hardware support with very good communication skills.</p>
+                        </div>
+                        <button class="btn btn-primary apply-btn" data-job="Desktop Support Engineer">Apply Now</button>
+                    </div>
+                    
+                    <!-- Service Support Engineer -->
+                    <div class="job-card fade-in-up" style="animation-delay: 0.1s;">
+                        <div class="job-info">
+                            <h4>Service Support Engineer</h4>
+                            <div class="job-meta">
+                                <span><i class="fas fa-briefcase"></i> 1-2 years experience</span>
+                                <span><i class="fas fa-graduation-cap"></i> Graduate</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Chennai, Mumbai, Kolkata, Delhi, Hyderabad, Jaipur</span>
+                            </div>
+                            <p>Experience in desktop, laptop or hardware support. Graduate with good communication skills.</p>
+                        </div>
+                        <button class="btn btn-primary apply-btn" data-job="Service Support Engineer">Apply Now</button>
+                    </div>
+                    
+                    <!-- Network Support Engineer -->
+                    <div class="job-card fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="job-info">
+                            <h4>Network Support Engineer</h4>
+                            <div class="job-meta">
+                                <span><i class="fas fa-briefcase"></i> 2+ years experience</span>
+                                <span><i class="fas fa-graduation-cap"></i> Graduate</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Chennai, Mumbai, Kolkata, Delhi, Hyderabad, Jaipur</span>
+                            </div>
+                            <p>Experience in relevant field with very good communication skills.</p>
+                        </div>
+                        <button class="btn btn-primary apply-btn" data-job="Network Support Engineer">Apply Now</button>
+                    </div>
+                    
+                    <!-- Linux Admin -->
+                    <div class="job-card fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="job-info">
+                            <h4>Linux Administrator</h4>
+                            <div class="job-meta">
+                                <span><i class="fas fa-briefcase"></i> 2+ years experience</span>
+                                <span><i class="fas fa-certificate"></i> Red Hat Certified</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Chennai, Mumbai, Kolkata, Delhi, Hyderabad</span>
+                            </div>
+                            <p>Experience in relevant field with Red Hat Certification and very good communication skills.</p>
+                        </div>
+                        <button class="btn btn-primary apply-btn" data-job="Linux Administrator">Apply Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Process -->
+        <section class="application-process">
+            <div class="container text-center">
+                <h2 class="section-title fade-in-up">How to Apply</h2>
+                <div class="process-steps fade-in-up" style="display: flex; justify-content: center; gap: 2rem; margin-top: 3rem; flex-wrap: wrap;">
+                    <div class="step" style="flex: 1; min-width: 200px;">
+                        <div style="width: 60px; height: 60px; background: var(--accent-gold); color: var(--dark-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">1</div>
+                        <h4>Submit Application</h4>
+                        <p>Click "Apply Now" on your desired position</p>
+                    </div>
+                    
+                    <div class="step" style="flex: 1; min-width: 200px;">
+                        <div style="width: 60px; height: 60px; background: var(--accent-gold); color: var(--dark-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">2</div>
+                        <h4>Interview Process</h4>
+                        <p>Technical and HR interviews</p>
+                    </div>
+                    
+                    <div class="step" style="flex: 1; min-width: 200px;">
+                        <div style="width: 60px; height: 60px; background: var(--accent-gold); color: var(--dark-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">3</div>
+                        <h4>Offer & Onboarding</h4>
+                        <p>Offer letter and smooth onboarding process</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 3rem;">
+                    <p style="color: var(--text-secondary);">For general career inquiries, email us at: <strong style="color: var(--accent-gold);">careers@myperito.com</strong></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact-page">
+        <!-- Page Hero -->
+        <section class="contact-hero">
+            <div class="container">
+                <h1 class="section-title fade-in-up">Let's Connect!</h1>
+                <p class="section-subtitle fade-in-up">Get in touch with our team for IT solutions tailored to your business needs</p>
+            </div>
+        </section>
+
+        <!-- Contact Content -->
+        <section class="contact-content">
+            <div class="container">
+                <div class="contact-container">
+                    <!-- Contact Information -->
+                    <div class="contact-info slide-in-left">
+                        <h2>Get in Touch</h2>
+                        <p>We're here to help with your IT needs. Reach out to us through any of the channels below, or fill out the contact form and we'll get back to you promptly.</p>
+                        
+                        <div class="contact-details">
+                            <div class="contact-detail">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email Us</h4>
+                                    <p>info@myperito.com</p>
+                                    <p style="color: var(--text-muted); font-size: 0.9rem;">For general inquiries and support</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-detail">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <h4>Call Us</h4>
+                                    <p>81489-59848</p>
+                                    <p style="color: var(--text-muted); font-size: 0.9rem;">Monday to Friday, 9 AM to 6 PM</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <h4>Our Locations</h4>
+                                    <p>Chennai, Mumbai, Kolkata, Delhi, Hyderabad, Jaipur</p>
+                                    <p style="color: var(--text-muted); font-size: 0.9rem;">Servicing clients across India</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="social-contact" style="margin-top: 2rem;">
+                            <h4>Connect on Social Media</h4>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <div class="contact-form slide-in-right">
+                        <h3>Send us a Message</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Your Name *</label>
+                                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="service">Service Interested In</label>
+                                <select id="service" name="service">
+                                    <option value="">Select a service</option>
+                                    <option value="desktop">Desktop Support</option>
+                                    <option value="network">Network Support</option>
+                                    <option value="linux">Linux Administration</option>
+                                    <option value="cloud">O365 & Cloud Support</option>
+                                    <option value="security">Information Security</option>
+                                    <option value="infrastructure">Remote Infrastructure</option>
+                                    <option value="compliance">Compliance Services</option>
+                                    <option value="other">Other Inquiry</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Your Message *</label>
+                                <textarea id="message" name="message" rows="5" required placeholder="Tell us about your IT needs or questions..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Locations Section -->
+        <section class="locations-section" style="background-color: var(--darker-bg);">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Our Service Locations</h2>
+                    <p class="section-subtitle fade-in-up">We provide IT support services across major cities in India</p>
+                </div>
+                
+                <div class="locations-grid fade-in-up" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div class="location-card" style="text-align: center; padding: 2.5rem; background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: var(--transition);">
+                        <div style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 1.5rem;">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h4>Chennai</h4>
+                        <p style="color: var(--text-secondary);">Headquarters and main service center</p>
+                    </div>
+                    
+                    <div class="location-card" style="text-align: center; padding: 2.5rem; background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: var(--transition);">
+                        <div style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 1.5rem;">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h4>Mumbai</h4>
+                        <p style="color: var(--text-secondary);">Financial capital operations center</p>
+                    </div>
+                    
+                    <div class="location-card" style="text-align: center; padding: 2.5rem; background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: var(--transition);">
+                        <div style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 1.5rem;">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h4>Delhi NCR</h4>
+                        <p style="color: var(--text-secondary);">National capital region hub</p>
+                    </div>
+                    
+                    <div class="location-card" style="text-align: center; padding: 2.5rem; background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow); border: 1px solid var(--border-color); transition: var(--transition);">
+                        <div style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 1.5rem;">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h4>Hyderabad</h4>
+                        <p style="color: var(--text-secondary);">Tech hub and IT services center</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-title fade-in-up">Frequently Asked Questions</h2>
+                    <p class="section-subtitle fade-in-up">Quick answers to common questions about our services</p>
+                </div>
+                
+                <div class="faq-list">
+                    <div class="faq-item fade-in-up">
+                        <h4>
+                            <span>What response time can I expect for support requests?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </h4>
+                        <p>Our standard response time is within 2 hours for priority requests and within 24 hours for standard requests. We offer 24/7 support for critical issues with guaranteed SLAs based on your service level agreement.</p>
+                    </div>
+                    
+                    <div class="faq-item fade-in-up" style="animation-delay: 0.1s;">
+                        <h4>
+                            <span>Do you provide onsite support or remote support?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </h4>
+                        <p>We provide both onsite and remote support depending on your requirements. Most issues can be resolved remotely, but we dispatch certified engineers onsite when necessary. Our hybrid approach ensures maximum efficiency and minimal downtime.</p>
+                    </div>
+                    
+                    <div class="faq-item fade-in-up" style="animation-delay: 0.2s;">
+                        <h4>
+                            <span>What certifications do your engineers have?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </h4>
+                        <p>All our engineers have necessary technical certifications including Microsoft, Cisco, Red Hat, AWS, and other relevant certifications based on their specialization. We also provide continuous training to keep our team updated with the latest technologies.</p>
+                    </div>
+                    
+                    <div class="faq-item fade-in-up" style="animation-delay: 0.3s;">
+                        <h4>
+                            <span>How do you ensure data security and privacy?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </h4>
+                        <p>We are ISO/IEC 27001:2013 certified and follow strict security protocols. All our engineers are background verified and sign comprehensive NDAs. We implement end-to-end encryption and comply with all data protection regulations relevant to your industry.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="careers-cta">
+            <div class="container text-center">
+                <h2 class="fade-in-up">Ready to Get Started?</h2>
+                <p class="section-subtitle fade-in-up">Contact us today for a free consultation on how we can support your IT needs</p>
+                <a href="tel:8148959848" class="btn btn-accent fade-in-up" style="margin-top: 2rem; margin-right: 1rem;">
+                    <i class="fas fa-phone"></i> Call Now: 81489-59848
+                </a>
+                <a href="mailto:info@myperito.com" class="btn btn-secondary fade-in-up" style="margin-top: 2rem;">
+                    <i class="fas fa-envelope"></i> Email Us
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#home-page" class="footer-logo" onclick="showPage('home-page')">
+                        <img src="image/Perito-Logo(1).jpg" alt="Perito Logo" class="footer-logo-img">
+                    </a>
+                    <p>Your personal technology consultant providing robust IT infrastructure, 24/7 monitoring, and seamless operations with zero downtime.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home-page" onclick="showPage('home-page')">Home</a></li>
+                        <li><a href="#services-page" onclick="showPage('services-page')">Services</a></li>
+                        <li><a href="#about-page" onclick="showPage('about-page')">About Us</a></li>
+                        <li><a href="#careers-page" onclick="showPage('careers-page')">Careers</a></li>
+                        <li><a href="#contact-page" onclick="showPage('contact-page')">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> info@myperito.com</p>
+                    <p><i class="fas fa-phone"></i> 81489-59848</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Chennai, Mumbai, Kolkata, Delhi, Hyderabad, Jaipur</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; Copyright 2026 Perito | Powered by Perito</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Main JavaScript for Perito Website
+
+        // Page Navigation Function
+        function showPage(pageId) {
+            console.log('Showing page:', pageId);
+            
+            // Hide all pages
+            document.querySelectorAll('[id$="-page"]').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show the selected page
+            const pageElement = document.getElementById(pageId);
+            if (pageElement) {
+                pageElement.style.display = 'block';
+                
+                // Update URL hash without triggering scroll
+                if (window.location.hash.substring(1) !== pageId) {
+                    window.history.pushState(null, null, `#${pageId}`);
+                }
+                
+                // Update active navigation link
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Find and activate the corresponding nav link
+                const navLink = document.querySelector(`.nav-links a[href="#${pageId}"]`);
+                if (navLink) {
+                    navLink.classList.add('active');
+                }
+                
+                // Trigger animations for elements with animation classes
+                setTimeout(() => {
+                    const animatedElements = pageElement.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right');
+                    animatedElements.forEach((el, index) => {
+                        // Reset animation
+                        el.style.animation = 'none';
+                        void el.offsetHeight; // Trigger reflow
+                        el.style.animation = null;
+                        
+                        // Set animation delay
+                        if (el.classList.contains('fade-in-up') || el.classList.contains('slide-in-left') || el.classList.contains('slide-in-right')) {
+                            el.style.animationDelay = `${index * 0.1}s`;
+                        }
+                    });
+                }, 50);
+            }
+            
+            // Close mobile menu if open
+            closeMobileMenu();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Initialize service tabs if on service-details-page
+            if (pageId === 'service-details-page') {
+                setTimeout(initializeServiceTabs, 100);
+            }
+        }
+
+        // Show Service Details Function
+        function showServiceDetails(serviceTab) {
+            console.log('Showing service details for:', serviceTab);
+            
+            // First show the service details page
+            showPage('service-details-page');
+            
+            // Wait for page to load and then switch to the correct tab
+            setTimeout(() => {
+                switchTab(serviceTab);
+            }, 300);
+        }
+
+        // Tab Switching Function
+        function switchTab(tabId) {
+            console.log('Switching to tab:', tabId);
+            
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // Remove active class from all tabs
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                content.style.display = 'none';
+            });
+            
+            // Add active class to specified tab
+            const activeTabBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            const activeTabContent = document.getElementById(tabId);
+            
+            if (activeTabBtn && activeTabContent) {
+                activeTabBtn.classList.add('active');
+                activeTabContent.classList.add('active');
+                activeTabContent.style.display = 'block';
+                
+                // Add animation
+                activeTabContent.style.opacity = '0';
+                activeTabContent.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    activeTabContent.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    activeTabContent.style.opacity = '1';
+                    activeTabContent.style.transform = 'translateY(0)';
+                }, 10);
+            }
+        }
+
+        // Handle hash-based navigation
+        function handleHashNavigation() {
+            const hash = window.location.hash.substring(1); // Remove the # symbol
+            
+            if (hash) {
+                // Check if it's a valid page ID
+                const validPages = ['home-page', 'services-page', 'service-details-page', 'about-page', 'careers-page', 'contact-page'];
+                
+                if (validPages.includes(hash)) {
+                    showPage(hash);
+                } else {
+                    // Default to home page if invalid hash
+                    showPage('home-page');
+                }
+            } else {
+                // Default to home page if no hash
+                showPage('home-page');
+            }
+        }
+
+        // Mobile Menu Functions
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        function toggleMobileMenu(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            
+            navLinks.classList.toggle('active');
+            
+            // Animate hamburger to X
+            const isActive = navLinks.classList.contains('active');
+            mobileMenuBtn.innerHTML = isActive 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+            
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = isActive ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Mobile menu button click
+        if (mobileMenuBtn && navLinks) {
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+            // Close menu when clicking links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        closeMobileMenu();
+                    }
+                });
+            });
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
+                if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            }
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.4)';
+                header.style.backgroundColor = 'rgba(10, 10, 15, 0.98)';
+            } else {
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+                header.style.backgroundColor = 'rgba(10, 10, 15, 0.95)';
+            }
+            
+            // Trigger animations on scroll
+            const animatedElements = document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right');
+            animatedElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize Service Tabs functionality
+        function initializeServiceTabs() {
+            console.log('Initializing service tabs...');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            if (tabButtons.length > 0) {
+                // Add click event to each tab button
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const tabId = this.getAttribute('data-tab');
+                        console.log('Tab clicked:', tabId);
+                        switchTab(tabId);
+                    });
+                });
+                
+                // Activate first tab by default if none active
+                const activeTab = document.querySelector('.tab-content.active');
+                if (!activeTab && tabButtons.length > 0) {
+                    const firstTabId = tabButtons[0].getAttribute('data-tab');
+                    switchTab(firstTabId);
+                }
+            }
+        }
+
+        // Form submission handling
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(this);
+                const formValues = Object.fromEntries(formData);
+                
+                // Simple validation
+                let isValid = true;
+                const requiredFields = ['name', 'email', 'message'];
+                
+                requiredFields.forEach(field => {
+                    const input = this.querySelector(`[name="${field}"]`);
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.style.borderColor = '#ef4444';
+                    } else {
+                        input.style.borderColor = 'var(--border-color)';
+                    }
+                });
+                
+                if (!isValid) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // Simulate form submission
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.7';
+                
+                // Simulate API call
+                setTimeout(() => {
+                    alert('Thank you for your message! We will get back to you soon.');
+                    this.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = '1';
+                }, 1500);
+            });
+        }
+
+        // Job application handling
+        const applyButtons = document.querySelectorAll('.apply-btn');
+        if (applyButtons.length > 0) {
+            applyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const jobTitle = this.getAttribute('data-job');
+                    alert(`Thank you for your interest in the ${jobTitle} position! Please email your resume to careers@myperito.com`);
+                });
+            });
+        }
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-item h4').forEach(header => {
+            header.addEventListener('click', () => {
+                const faqItem = header.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Mega menu hover for desktop
+        const servicesMenuItem = document.querySelector('.services-menu-item');
+        if (servicesMenuItem) {
+            servicesMenuItem.addEventListener('mouseenter', () => {
+                if (window.innerWidth > 768) {
+                    const megaMenu = servicesMenuItem.querySelector('.mega-menu');
+                    if (megaMenu) {
+                        megaMenu.style.display = 'flex';
+                        setTimeout(() => {
+                            megaMenu.style.opacity = '1';
+                            megaMenu.style.transform = 'translateY(0)';
+                        }, 10);
+                    }
+                }
+            });
+            
+            servicesMenuItem.addEventListener('mouseleave', () => {
+                if (window.innerWidth > 768) {
+                    const megaMenu = servicesMenuItem.querySelector('.mega-menu');
+                    if (megaMenu) {
+                        megaMenu.style.opacity = '0';
+                        megaMenu.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            megaMenu.style.display = 'none';
+                        }, 300);
+                    }
+                }
+            });
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Perito website loaded successfully');
+            
+            // Initialize service tabs
+            initializeServiceTabs();
+            
+            // Handle initial hash navigation
+            handleHashNavigation();
+            
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', handleHashNavigation);
+            
+            // Set current year in copyright
+            const yearElement = document.querySelector('.copyright p');
+            if (yearElement) {
+                yearElement.innerHTML = yearElement.innerHTML.replace('2023', new Date().getFullYear());
+            }
+            
+            // Add click events to service cards for better UX
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Don't trigger if clicking on the link inside
+                    if (!e.target.closest('.service-link') && !e.target.classList.contains('service-link')) {
+                        const link = this.querySelector('.service-link');
+                        if (link && link.hasAttribute('onclick')) {
+                            const onclickAttr = link.getAttribute('onclick');
+                            if (onclickAttr) {
+                                // Execute the onclick function
+                                eval(onclickAttr);
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Initialize animations on home page
+            const animatedElements = document.querySelectorAll('.fade-in-up, .slide-in-left, .slide-in-right');
+            setTimeout(() => {
+                animatedElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            }, 100);
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
